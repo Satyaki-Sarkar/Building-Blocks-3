@@ -10,14 +10,19 @@ var ground1,ground2,mainGround;
 var shooter,attach1;
 var stoneImage,stone;
 var gameState;
+var score,backgroundImg;
 
 function preload()
 {
+	changeBackground();
 	stoneImage = loadImage("stone.png");
 }
 
 function setup() {
 	createCanvas(1200, 500);
+
+	score = 0;
+	console.log(score);
     
 	gameState = "onSling";
 
@@ -76,11 +81,15 @@ function setup() {
 
 function draw() {
   rectMode(CENTER);
-  background(0);
-
+  if(backgroundImg){
+  background(backgroundImg);
+  }
+  
+  push();
   textSize(40);
   fill("White");
   text("Press SPACE to get one more throw.",100,50);
+  pop();
   
   ground1.display();
   ground2.display();
@@ -107,9 +116,34 @@ function draw() {
   box19.display();
   box20.display();
 
+  box1.calculateScore();
+  box2.calculateScore();
+  box3.calculateScore();
+  box4.calculateScore();
+  box5.calculateScore();
+  box6.calculateScore();
+  box7.calculateScore();
+  box8.calculateScore();
+  box9.calculateScore();
+  box10.calculateScore();
+  box11.calculateScore();
+  box12.calculateScore();
+  box13.calculateScore();
+  box14.calculateScore();
+  box15.calculateScore();
+  box16.calculateScore();
+  box17.calculateScore();
+  box18.calculateScore();
+  box19.calculateScore();
+  box20.calculateScore();
+
   polygon.display();
 
   attach1.display();
+
+  fill("Black");
+  textSize(20);
+  text("Score:"+score,10,20); 
   
   drawSprites();
  
@@ -132,4 +166,16 @@ function keyPressed(){
 	attach1.attachBody(polygon.body);
 	gameState = "onSling";
 	}
+}
+
+async function changeBackground(){
+    var response = await fetch("https://worldtimeapi.org/api/timezone/Asia/Kolkata");
+    var responseData = await response.json();
+    var dateTime = responseData.datetime;
+    var hour = dateTime.slice(11,13);
+    if(hour>=6 && hour<=18){
+        backgroundImg = "Red";
+    }else {
+        backgroundImg = "Blue";
+    }
 }
